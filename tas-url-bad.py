@@ -10,37 +10,43 @@ import requests
 import sys
 import pdb
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
+import argparse
 
-
-def downloadfile(namafile):
-    r = requests.get('https://urlhaus.abuse.ch/downloads/csv_online/', timeout=10, verify=False)
+def downloadfile(namafile,proxyaddress):
+    print("Redownloading url malware list from urlhaus.abuse.ch ....")
+    r = requests.get('https://urlhaus.abuse.ch/downloads/csv_online/', proxies = proxyaddress)
     f = open(namafile,"w")
     f.write(r.text)
     f.close()
+    print("URL Malware List downloaded")
 
-def akses(baris):
+def akses(baris,proxyaddress):
     try:
-        r = requests.get(baris, verify=False, timeout=1 )
+        r = requests.get(baris, verify=False, timeout=1, proxies = proxyaddress )
         return int(r.headers['Content-Length'])
     except:
         return -1
 
 def main():
-    try:
-        jumlah = int(sys.argv[1])
-    except:
-        jumlah = 0
-    
-    try:
-        if (sys.argv[2]=='yes'):
-            redo = True
-        else:
-            redo = False
-    except:
-            redo = False
-    
+    print("tas-url-bad.py v0.1 by TAS ATX")
+    print("-------------------------------")
+    parser=argparse.ArgumentParser(description="tas-url-bad.py will require some argument to run")
+    parser.add_argument("limit", help='Run until line number limit',type=int)
+    parser.add_argument("--download", help="Redownload the list from abuse.ch or not", action='store_true')
+    parser.add_argument("--useproxy", help="Run with Proxy Server, specify your proxy server user:pass@1.1.1.1:9999")
+    args = parser.parse_args()
+
+    jumlah = args.limit
+    redo = args.download
+    useproxy = args.useproxy
+
+    if ( useproxy!=None ):
+        proxydict = { 'http':'http://'+useproxy, 'https':'http://'+useproxy}
+    else:
+        proxydict = {}
+
     if (redo):  # just redownload only if needed
-       downloadfile('url-list.csv')
+       downloadfile('url-list.csv', proxydict)
     
     f = open('url-list.csv')
     i = 0
@@ -55,7 +61,7 @@ def main():
 
         try:
             url = data[2]
-            result = akses(url.replace('"',''))
+            result = akses(url.replace('"',''), proxydict)
             if ( result > 1):
                 print ("OK - Size:"+ str(result)+" "+url)
             else:
