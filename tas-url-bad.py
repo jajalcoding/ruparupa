@@ -20,9 +20,11 @@ def downloadfile(namafile,proxyaddress):
     f.close()
     print("URL Malware List downloaded")
 
-def akses(baris,proxyaddress):
+def akses(baris,proxyaddress,debug):
     try:
         r = requests.get(baris, verify=False, timeout=1, proxies = proxyaddress )
+        if (debug):
+            print(r.text)
         return int(r.headers['Content-Length'])
     except:
         return -1
@@ -34,11 +36,14 @@ def main():
     parser.add_argument("limit", help='Run until line number limit',type=int)
     parser.add_argument("--download", help="Redownload the list from abuse.ch or not", action='store_true')
     parser.add_argument("--useproxy", help="Run with Proxy Server, specify your proxy server user:pass@1.1.1.1:9999")
+    parser.add_argument("--debug", help="Print http result for each request", action="store_true")
+
     args = parser.parse_args()
 
     jumlah = args.limit
     redo = args.download
     useproxy = args.useproxy
+    debug = args.debug
 
     if ( useproxy!=None ):
         proxydict = { 'http':'http://'+useproxy, 'https':'http://'+useproxy}
@@ -48,7 +53,13 @@ def main():
     if (redo):  # just redownload only if needed
        downloadfile('url-list.csv', proxydict)
     
-    f = open('url-list.csv')
+    try:
+        f = open('url-list.csv')
+    except:
+        print("url-list.csv is not found !")
+        downloadfile('url-list.csv', proxydict)
+        f = open('url-list.csv')
+
     i = 0
     for line in f:
         data = line.split(",")
@@ -61,9 +72,9 @@ def main():
 
         try:
             url = data[2]
-            result = akses(url.replace('"',''), proxydict)
+            result = akses(url.replace('"',''), proxydict, debug)
             if ( result > 1):
-                print ("OK - Size:"+ str(result)+" "+url)
+                print ("OK - Size :"+ str(result)+" "+url)
             else:
                 print ("** NOT OK -"+url)
 
