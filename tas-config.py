@@ -15,8 +15,8 @@ def ssh_fgt(ipadd,portno,user,pwd,command):
 
 def find_config_module(modsearch,allconfig):
     awal = allconfig.find('config '+modsearch)
-    akhir = allconfig.find('end\n',awal+1)    # make sure end\n --> if without \n can be 'set endip' considered as found!!!
-    return allconfig[awal:akhir+3]            # 3 = word 'end'
+    akhir = allconfig.find('\nend\n',awal+1)    # make sure end\n --> if without \n can be 'set endip' considered as found!!! also belakangan found \nend bisa utk end of module utk config bernested
+    return allconfig[awal:akhir+5]            # 3 = word 'end'
 
 def combine_module(conflengkap, listmodule):   # contoh listmodule = ['firewall policy','firewall ippool']
     allparts = ''
@@ -35,7 +35,7 @@ def main():
     print('Getting configuration....')
     configstr = ssh_fgt('192.168.1.99', 22, 'testing', '12345', 'show' )
 
-    gabungmodule = combine_module( configstr, [ 'system interface','firewall policy','firewall ippool' ] )
+    gabungmodule = combine_module( configstr, [ 'system interface','firewall policy','firewall ippool', 'router ospf' ] )
 
     print(gabungmodule)
 
@@ -65,7 +65,6 @@ end
 
 yg bagian ini nanti dulu
 
-'''
 #    print('Full configuration :')
 #    print('-----------------------')
 #    print(configstr.decode())  # use decode to translate b' and \n
@@ -73,3 +72,11 @@ yg bagian ini nanti dulu
 #    ada = find_config_module('kagak ada',configstr.decode())
 #    if not ada:
 #        print('contoh bagian tidak ketemu')
+
+find config, ketemu posisi 1
+
+cari lagi 'config' mulai dari posisi 1 -> posisi nextconfig
+cari juga 'end' mulai dari posisi 1  -> posisi nextend
+if nextconfig < nextend --> ini berarti nested
+
+'''

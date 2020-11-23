@@ -1,0 +1,204 @@
+(env) asiong@TASNUC:/mnt/d/Source Code/RupaRupa$ python tas-config.py
+Please make sure that fortigate is config with config system console - set output standard
+Getting configuration....
+Executing :show
+config system interface
+    edit "wan1"
+        set vdom "root"
+        set mode dhcp
+        set allowaccess ping fgfm
+        set type physical
+        set snmp-index 1
+    next
+    edit "wan2"
+        set vdom "root"
+        set mode dhcp
+        set allowaccess ping fgfm
+        set type physical
+        set role wan
+        set snmp-index 2
+    next
+    edit "internal4"
+        set vdom "root"
+        set ip 192.168.2.1 255.255.255.0
+        set allowaccess ping https ssh fgfm
+        set poe disable
+        set type physical
+        set alias "ServerTASWIN8"
+        set device-identification enable
+        set role dmz
+        set snmp-index 6
+    next
+    edit "modem"
+        set vdom "root"
+        set mode pppoe
+        set type physical
+        set snmp-index 3
+    next
+    edit "ssl.root"
+        set vdom "root"
+        set type tunnel
+        set alias "SSL VPN interface"
+        set snmp-index 4
+    next
+    edit "internal"
+        set vdom "root"
+        set ip 192.168.1.99 255.255.255.0
+        set allowaccess ping https ssh fgfm radius-acct fabric
+        set type hard-switch
+        set explicit-web-proxy enable
+        set stp enable
+        set device-identification enable
+        set role lan
+        set snmp-index 5
+    next
+end
+
+config firewall policy
+    edit 6
+        set name "to SG Innov"
+        set uuid d7dd4bda-cfb9-51e9-50c8-999bb32568ab
+        set srcintf "internal"
+        set dstintf "virtual-wan-link"
+        set srcaddr "all"
+        set dstaddr "vpn-sg-innov-group"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set nat enable
+    next
+    edit 9
+        set name "k8s-policy"
+        set uuid e92356d0-08ae-51eb-6e7b-46e710465c1b
+        set srcintf "internal"
+        set dstintf "virtual-wan-link"
+        set srcaddr "k8s-pod-access"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set utm-status enable
+        set ssl-ssh-profile "certificate-inspection"
+        set av-profile "wifi-default"
+        set logtraffic all
+        set nat enable
+    next
+    edit 8
+        set name "Lampu"
+        set uuid fcbb4508-08a0-51eb-e04e-a781f033b2b6
+        set srcintf "internal"
+        set dstintf "virtual-wan-link"
+        set srcaddr "Lampu Yeelight 2"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set logtraffic all
+        set nat enable
+    next
+    edit 13
+        set name "Policy-Three"
+        set uuid 029ecc2e-d85e-51ea-6f50-9c2988aa9836
+        set srcintf "internal"
+        set dstintf "virtual-wan-link"
+        set srcaddr "all"
+        set dstaddr "fortinet-intranet"
+        set schedule "always"
+        set service "ALL"
+        set logtraffic disable
+    next
+    edit 12
+        set name "Policy-Two"
+        set uuid 703bf974-d452-51ea-0244-9e580d3acecf
+        set srcintf "internal"
+        set dstintf "virtual-wan-link"
+        set srcaddr "all"
+        set dstaddr "a-109"
+        set schedule "always"
+        set service "SIP"
+        set logtraffic all
+    next
+    edit 1
+        set name "Policy-One"
+        set uuid 9c5ad246-07c1-51e9-0d2a-a5b35837477d
+        set srcintf "internal"
+        set dstintf "virtual-wan-link"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set utm-status enable
+        set inspection-mode proxy
+        set ssl-ssh-profile "certificate-inspection"
+        set av-profile "proxy-default"
+        set webfilter-profile "monitor-all"
+        set application-list "default"
+        set nat enable
+    next
+    edit 51
+        set name "sslvpn web mode access"
+        set uuid d8322dfe-ed68-51e9-30c8-a66c8f29ef52
+        set srcintf "ssl.root"
+        set dstintf "internal"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set groups "sslvpngroup"
+    next
+    edit 10
+        set name "ssl from out to internet back"
+        set uuid 2727745a-ed6e-51e9-3a54-e8c755b1aa0f
+        set srcintf "ssl.root"
+        set dstintf "virtual-wan-link"
+        set srcaddr "all"
+        set dstaddr "all"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set utm-status enable
+        set ssl-ssh-profile "certificate-inspection"
+        set av-profile "default"
+        set application-list "default"
+        set logtraffic all
+        set groups "sslvpngroup"
+        set nat enable
+    next
+end
+
+config firewall ippool
+    edit "PBA-NAT-test-pool"
+        set type port-block-allocation
+        set startip 192.168.0.200
+        set endip 192.168.0.200
+        set block-size 1024
+        set num-blocks-per-user 1
+    next
+    edit "Wifi-only-dynamic-ip"
+        set type fixed-port-range
+        set startip 192.168.0.141
+        set endip 192.168.0.142
+        set source-startip 192.168.1.2
+        set source-endip 192.168.1.250
+    next
+end
+
+config router ospf
+    config redistribute "connected"
+    end
+    config redistribute "static"
+    end
+    config redistribute "rip"
+    end
+    config redistribute "bgp"
+    end
+    config redistribute "isis"
+    end
+end
+
+
+Injecting script to 1.1.1.1
+Injecting script to 2.2.2.2
+Injecting script to 3.3.3.3
