@@ -1,0 +1,15 @@
+
+device:
+- ip : '192.168.1.99'
+- port : 22
+- username : 'testing'
+- password : '12345'
+- configcmd : 'show'
+
+module :
+- system interface
+- firewall policy
+- firewall ippool
+- router ospf
+
+filename : 'combined.cfg'
