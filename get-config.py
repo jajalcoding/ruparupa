@@ -84,7 +84,7 @@ def loadyaml2dict(namafile):
     return sentdata
 
 def find_config_module(modsearch,allconfig):
-    awal = allconfig.find('config '+modsearch)
+    awal = allconfig.find('config '+modsearch+'\r') # added \r to prevent real-server real-server-profile
     akhir = allconfig.find('\r\nend\r\n',awal+1)    
     return allconfig[awal:akhir+7]            # 7 = word '\r\nend\r\n'
 

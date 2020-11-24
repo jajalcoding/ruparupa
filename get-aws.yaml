@@ -9,6 +9,8 @@ device:
 module :
 - system isp-addr
 - system admin
-- router ospf
+- load-balance real-server
+- load-balance pool
+- load-balance virtual-server
 
 filename : 'awscombined.cfg'
