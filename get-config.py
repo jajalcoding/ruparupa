@@ -24,22 +24,51 @@ module :
 
 filename : 'combined.cfg'
 
+----- for ssh with private key (aws)
+
+device:
+- ip : '192.168.1.99'
+- port : 22
+- username : 'ec2-user'
+- privatekeyfile : 'xxxx.pem'
+
 '''
 from paramiko import SSHClient, AutoAddPolicy
 import yaml
 import sys
+import time
+import pdb
 
-def ssh_fgt(ipadd,portno,user,pwd,command):
+def ssh_fgt(ipadd,portno,user,pwd,command,privatefile):
     client = SSHClient()
     client.set_missing_host_key_policy(AutoAddPolicy())
+
     try:
-        client.connect(ipadd,username=user,password=pwd,port=portno,timeout=10)
+        if (privatefile==''):
+            client.connect(ipadd,username=user,password=pwd,port=portno,timeout=10)
+        else:
+            client.connect(ipadd, username=user,port=portno, timeout=10, key_filename=privatefile)
     except:
         print("Can not connect to "+ipadd+':'+str(portno)+' with given credentials !!')
         exit()
-    
-    stdin, stdout, stderr = client.exec_command(command)
-    hasil = stdout.read()
+ 
+    # will need to find a more graceful way .. check the prompt ? now just sleep
+    remote_shell = client.invoke_shell()
+    print("Wait 2 seconds for ssh ready...")
+    time.sleep(2)
+    hasil=''
+    while (len(hasil)<50):
+        remote_shell.send(command+'\n')
+        hasil = remote_shell.recv(500000)
+        print('Wait 10 seconds for capturing long configuration.....')
+        time.sleep(10)
+        if (len(hasil)<50):
+           print('Not getting enough data, got only '+str(len(hasil))+' bytes ....sleeping for 5 seconds..and will repeat ...')
+           time.sleep(5) 
+        else:
+            print('Getting '+str(len(hasil))+' bytes')
+
+    #print(hasil.decode())
     client.close()
     return hasil
 
@@ -56,8 +85,8 @@ def loadyaml2dict(namafile):
 
 def find_config_module(modsearch,allconfig):
     awal = allconfig.find('config '+modsearch)
-    akhir = allconfig.find('\nend\n',awal+1)    # make sure end\n --> if without \n can be 'set endip' considered as found!!! also belakangan found \nend bisa utk end of module utk config bernested
-    return allconfig[awal:akhir+5]            # 3 = word 'end'
+    akhir = allconfig.find('\r\nend\r\n',awal+1)    
+    return allconfig[awal:akhir+7]            # 7 = word '\r\nend\r\n'
 
 def combine_module(conflengkap, listmodule):   # contoh listmodule = ['firewall policy','firewall ippool']
     allparts = ''
@@ -87,13 +116,22 @@ def main():
     
     print("Please make sure that Forti product is config with config system console - set output standard, to prevent 'more' during ssh !!")
     print('Getting configuration....')
-    
-    configstr = ssh_fgt(isidata['device'][0]['ip'], isidata['device'][1]['port'], 
-                isidata['device'][2]['username'], isidata['device'][3]['password'], isidata['device'][4]['configcmd'] )
+ 
+    try:
+        useprivatekey = isidata['device']['privatekeyfile']
+    except:
+        useprivatekey = ''
+
+    if (useprivatekey == ''):
+        configstr = ssh_fgt(isidata['device']['ip'], isidata['device']['port'], 
+                    isidata['device']['username'], isidata['device']['password'], isidata['device']['configcmd'] ,'' )
+    else:
+        configstr = ssh_fgt(isidata['device']['ip'], isidata['device']['port'], 
+                    isidata['device']['username'], '', isidata['device']['configcmd'] , useprivatekey)
 
     gabungmodule = combine_module( configstr, isidata['module'] )
 
-    #print(gabungmodule)
+    print(gabungmodule)
 
     savefile(gabungmodule,isidata['filename'])
     print('Combined module is saved successfully to '+isidata['filename'])
@@ -103,3 +141,12 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+'''
+uji coba connect ke aws dg pem key
+ada yg aneh dg kasus ssh ke aws, di mana pakai client.exec_command tidak dapat hasil apapun !
+harus pakai invoke_shell
+'''

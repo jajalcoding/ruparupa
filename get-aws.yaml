@@ -1,0 +1,14 @@
+
+device:
+  ip : '3.220.169.59'
+  port : 22
+  username : 'admin'
+  configcmd : 'show'
+  privatekeyfile: 'fgt_virginia.pem'
+
+module :
+- system isp-addr
+- system admin
+- router ospf
+
+filename : 'awscombined.cfg'
