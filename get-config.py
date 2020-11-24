@@ -129,6 +129,10 @@ def main():
         configstr = ssh_fgt(isidata['device']['ip'], isidata['device']['port'], 
                     isidata['device']['username'], '', isidata['device']['configcmd'] , useprivatekey)
 
+    f = open('cfgtmp.txt','w')
+    f.write(configstr.decode())
+    f.close()
+
     gabungmodule = combine_module( configstr, isidata['module'] )
 
     print(gabungmodule)

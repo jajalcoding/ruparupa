@@ -1,0 +1,951 @@
+show
+config system global
+  set hostname FortiADC-XENAWS_ONDEMAND
+end
+config system traffic-group
+end
+config system interface
+  edit "port1"
+    set mode dhcp
+    set vdom root
+    set allowaccess https ping ssh snmp http telnet 
+    set retrieve_dhcp_gateway enable
+    config  ha-node-ip-list
+    end
+  next
+end
+config system dns
+  set primary 208.91.112.53
+  set secondary 208.91.112.52
+end
+config system time manual
+end
+config system time ntp
+end
+config system certificate ca
+end
+config system certificate ca_group
+end
+config system certificate remote
+end
+config user ldap
+end
+config system certificate crl
+end
+config system accprofile
+end
+config system password-policy
+end
+config user radius
+end
+config system admin
+  edit "admin"
+    set is-system-admin yes
+    set password ENC $1$d1633a74$7i.Qh32F1d90REtX4Yamg/
+    config  gui-dashboard
+      edit 1
+        set name Main
+        set widget logEvent serverLoadBalance globalLoadBalance security interfaceSummary vsSummary 
+      next
+    end
+    config  global-gui-dashboard
+      edit 1
+        set name Main
+        set widget systemInfo resourcesUsage systemEvent interfaceDistribution securityFabric licenseInfo haInfo 
+      next
+    end
+  next
+end
+config system ha
+end
+config system snmp sysinfo
+end
+config system snmp community
+end
+config system snmp user
+end
+config system fortiguard
+end
+config system auto-backup
+end
+config log setting global_remote
+end
+config system certificate local
+end
+config system certificate ocsp
+end
+config system certificate intermediate_ca
+end
+config system certificate OCSP_stapling
+end
+config system certificate intermediate_ca_group
+end
+config system certificate local_cert_group
+end
+config system certificate certificate_verify
+end
+config system disk
+end
+config system sdn-connector
+end
+config config sync-list
+end
+config system mailserver
+end
+config system web-filter
+end
+config system console
+  set output standard
+end
+config system vdom
+  edit "root"
+  next
+end
+config antivirus heuristic
+end
+config system fortisandbox
+end
+config system aws
+end
+config system auto-scale
+end
+config system central-management
+end
+config system ips
+end
+config system one-click-glb-server
+end
+config router static
+end
+config system tcpdump
+end
+config system alert-snmp-trap
+end
+config log setting local
+end
+config log setting fast_stats
+end
+config system scripting
+end
+config system isp-addr
+  edit "china-mobile"
+    config  exclude-address
+    end
+    config  address
+    end
+  next
+  edit "china-unicom"
+    config  exclude-address
+    end
+    config  address
+    end
+  next
+  edit "china-telecom"
+    config  exclude-address
+    end
+    config  address
+    end
+  next
+end
+config system address
+end
+config system addrgrp
+end
+config system address6
+end
+config system addrgrp6
+end
+config system service
+end
+config system tokengroup
+end
+config system servicegrp
+end
+config system health-check-script
+end
+config system health-check
+end
+config security waf action
+end
+config security waf advanced-protection
+end
+config security waf bot-detection
+end
+config security waf exception
+end
+config security waf cookie-security
+end
+config security waf web-attack-signature
+end
+config security waf url-protection
+end
+config security waf http-protocol-constraint
+end
+config security waf heuristic-sql-xss-injection-detection
+end
+config security waf soap-wsdl-file
+end
+config security waf xml-schema-file
+end
+config security waf xml-validation-detection
+end
+config security waf json-schema-file
+end
+config security waf json-validation-detection
+end
+config security waf openapi-schema-file
+end
+config security waf openapi-validation-detection
+end
+config security waf brute-force-login
+end
+config security waf csrf-protection
+end
+config security waf sensitive-data-type
+end
+config security waf parameter-validation-rule
+end
+config security waf hidden-field-rule
+end
+config security waf file-restriction-rule
+end
+config security waf input-validation-policy
+end
+config security waf data-leak-prevention
+end
+config security waf credential-stuffing-defense
+end
+config security waf http-header-security
+end
+config security waf api-gateway-user
+end
+config security waf api-gateway-rule
+end
+config security waf api-gateway-policy
+end
+config security waf profile
+end
+config security wad profile
+end
+config system setting
+end
+config load-balance reputation
+  edit 1
+    set category Botnet
+  next
+  edit 2
+    set category "Anonymous Proxy"
+  next
+  edit 3
+    set category Phishing
+  next
+  edit 4
+    set category Spam
+  next
+  edit 5
+    set category Others
+  next
+  edit 6
+    set category "Block List"
+    set action deny
+  next
+end
+config load-balance reputation-exception
+end
+config load-balance reputation-block-list
+  config  entries
+  end
+end
+config system schedule-group
+end
+config load-balance pagespeed-profile
+end
+config load-balance pagespeed
+end
+config load-balance compression
+end
+config load-balance decompression
+end
+config load-balance certificate-caching
+end
+config load-balance caching
+end
+config load-balance error-page
+end
+config load-balance geoip-list
+end
+config load-balance allowlist
+end
+config load-balance client-ssl-profile
+end
+config load-balance http2-profile
+end
+config load-balance profile
+end
+config load-balance connection-pool
+end
+config load-balance ippool
+end
+config load-balance real-server-ssl-profile
+end
+config load-balance real-server
+end
+config load-balance clone-pool
+end
+config load-balance pool
+end
+config load-balance method
+end
+config load-balance persistence
+end
+config load-balance content-rewriting
+end
+config load-balance schedule-pool
+end
+config load-balance content-routing
+end
+config user local
+end
+config user authentication-relay
+end
+config user cust_auth_form
+end
+config user ntlm
+end
+config user user-group
+end
+config user saml-idp
+end
+config user saml-sp
+end
+config user adfs-proxy
+end
+config user adfs-relying-party
+end
+config user adfs-publish
+end
+config load-balance auth-policy
+end
+config load-balance web-sub-category
+end
+config load-balance web-category
+end
+config load-balance web-filter-profile
+end
+config load-balance l2-exception-list
+end
+config system overlay-tunnel
+end
+config system wccp
+end
+config security antivirus profile
+end
+config security ips profile
+end
+config security dos ip-fragmentation-protection
+end
+config security dos tcp-slowdata-attack-protection
+end
+config security dos tcp-access-flood-protection
+end
+config security dos tcp-synflood-protection
+end
+config security dos http-access-limit
+end
+config security dos http-connection-flood-protection
+end
+config security dos http-request-flood-protection
+end
+config security dos dos-protection-profile
+end
+config load-balance captcha-profile
+end
+config load-balance virtual-server
+end
+config link-load-balance persistence
+end
+config link-load-balance gateway
+end
+config link-load-balance link-group
+end
+config link-load-balance virtual-tunnel
+end
+config link-load-balance flow-policy
+  config  rule
+  end
+end
+config global-load-balance topology
+end
+config global-load-balance data-center
+end
+config global-load-balance servers
+end
+config global-load-balance link
+end
+config global-load-balance virtual-server-pool
+end
+config global-load-balance host
+end
+config global-load-balance setting
+end
+config global-load-balance analytic
+end
+config global-dns-server remote-dns-server
+end
+config global-dns-server response-rate-limit
+end
+config global-dns-server address-group
+end
+config global-dns-server trust-anchor-key
+end
+config global-dns-server general
+end
+config global-dns-server dsset-info-list
+end
+config global-dns-server zone
+end
+config global-dns-server dns64
+end
+config global-dns-server policy
+end
+config firewall policy
+  config  rule
+  end
+end
+config firewall policy6
+  config  rule
+  end
+end
+config firewall connlimit
+  config  rule
+  end
+end
+config firewall connlimit6
+  config  rule
+  end
+end
+config firewall qos-queue
+end
+config firewall qos-filter
+end
+config firewall qos-filter6
+end
+config link-load-balance proximity-route
+end
+config router policy
+end
+config router isp
+end
+config router setting
+  config  rt-cache-reverse-exception
+  end
+end
+config firewall nat-snat
+end
+config firewall vip
+end
+config log fast_report
+end
+config log report_queryset
+end
+config log report
+end
+config router md5-ospf
+end
+config router ospf
+  config  area
+  end
+  config  network
+  end
+  config  ospf-interface
+  end
+  config  ha-router-id-list
+  end
+end
+config router access-list
+end
+config router access-list6
+end
+config router prefix-list
+end
+config router prefix-list6
+end
+config router bgp
+  config  network
+  end
+  config  neighbor
+  end
+  config  ha-router-id-list
+  end
+end
+config system alert-syslog
+end
+config system alert-email
+end
+config system alert-action
+end
+config system alert-event
+end
+config system alert-metric
+end
+config system alert
+end
+config system alert-policy
+  edit "HA"
+    set action Default_alert_action
+    set comments HA
+    config  alert-member
+      edit "SYS_HA_Peer_Lost"
+        set alert-name SYS_HA_Peer_Lost
+      next
+      edit "SYS_HA_Master_Failover"
+        set alert-name SYS_HA_Master_Failover
+      next
+    end
+  next
+  edit "Admin"
+    set action Default_alert_action
+    set comments Admin
+    config  alert-member
+      edit "SYS_USER_LOGIN"
+        set alert-name SYS_USER_LOGIN
+      next
+      edit "SYS_USER_LOGOUT"
+        set alert-name SYS_USER_LOGOUT
+      next
+    end
+  next
+  edit "Configuraton"
+    set action Default_alert_action
+    set comments Configuraton
+    config  alert-member
+      edit "CONFIG_CREATE"
+        set alert-name CONFIG_CREATE
+      next
+      edit "CONFIG_DELETE"
+        set alert-name CONFIG_DELETE
+      next
+      edit "CONFIG_UPDATE"
+        set alert-name CONFIG_UPDATE
+      next
+    end
+  next
+  edit "System_basic"
+    set action Default_alert_action
+    set comments System_basic
+    config  alert-member
+      edit "HW_Log_Disk_Lost"
+        set alert-name HW_Log_Disk_Lost
+      next
+      edit "SYS_Ssd_Mwi_Near_Threshold"
+        set alert-name SYS_Ssd_Mwi_Near_Threshold
+      next
+      edit "SYS_Ssd_Mwi_Reached_Threshold"
+        set alert-name SYS_Ssd_Mwi_Reached_Threshold
+      next
+      edit "SYS_CPU_HIGH"
+        set alert-name SYS_CPU_HIGH
+      next
+      edit "SYS_DISK_HIGH"
+        set alert-name SYS_DISK_HIGH
+      next
+      edit "SYS_MEM_HIGH"
+        set alert-name SYS_MEM_HIGH
+      next
+    end
+  next
+  edit "Health_check"
+    set action Default_alert_action
+    set comments Health_check
+    config  alert-member
+      edit "SLB_Server_HC_Down"
+        set alert-name SLB_Server_HC_Down
+      next
+      edit "SLB_Server_HC_Up"
+        set alert-name SLB_Server_HC_Up
+      next
+      edit "SLB_Virtual_Server_DOWN"
+        set alert-name SLB_Virtual_Server_DOWN
+      next
+      edit "SLB_Virtual_Server_UP"
+        set alert-name SLB_Virtual_Server_UP
+      next
+      edit "LLB_Gateway_HC_Down"
+        set alert-name LLB_Gateway_HC_Down
+      next
+      edit "LLB_Gateway_HC_Up"
+        set alert-name LLB_Gateway_HC_Up
+      next
+      edit "LLB_Link_Group_HC_Down"
+        set alert-name LLB_Link_Group_HC_Down
+      next
+      edit "LLB_Link_Group_HC_Up"
+        set alert-name LLB_Link_Group_HC_Up
+      next
+      edit "GLB_Virtual_Server_Not_Avail"
+        set alert-name GLB_Virtual_Server_Not_Avail
+      next
+      edit "GLB_Virtual_Server_Avail"
+        set alert-name GLB_Virtual_Server_Avail
+      next
+      edit "GLB_Server_Not_Avail"
+        set alert-name GLB_Server_Not_Avail
+      next
+      edit "GLB_Server_Avail"
+        set alert-name GLB_Server_Avail
+      next
+      edit "GLB_GW_Not_Avail"
+        set alert-name GLB_GW_Not_Avail
+      next
+      edit "GLB_GW_Avail"
+        set alert-name GLB_GW_Avail
+      next
+    end
+  next
+  edit "Certificate"
+    set action Default_alert_action
+    set comments Certificate
+    config  alert-member
+      edit "SLB_CERT_EXPIRE"
+        set alert-name SLB_CERT_EXPIRE
+      next
+    end
+  next
+  edit "All_SNMP"
+    set action Default_alert_action
+    set comments All_SNMP
+    config  alert-member
+      edit "HW_CPU_Temp_High"
+        set alert-name HW_CPU_Temp_High
+      next
+      edit "HW_CPU_Temp_Normal"
+        set alert-name HW_CPU_Temp_Normal
+      next
+      edit "HW_Device_Temp_High"
+        set alert-name HW_Device_Temp_High
+      next
+      edit "HW_Device_Temp_Normal"
+        set alert-name HW_Device_Temp_Normal
+      next
+      edit "HW_PSU_Temp_High"
+        set alert-name HW_PSU_Temp_High
+      next
+      edit "HW_PSU_Temp_Normal"
+        set alert-name HW_PSU_Temp_Normal
+      next
+      edit "HW_PSU_Fan_Slow"
+        set alert-name HW_PSU_Fan_Slow
+      next
+      edit "HW_Device_Fan_Slow"
+        set alert-name HW_Device_Fan_Slow
+      next
+      edit "HW_PSU_Fan_Bad"
+        set alert-name HW_PSU_Fan_Bad
+      next
+      edit "HW_PSU_Fan_Good"
+        set alert-name HW_PSU_Fan_Good
+      next
+      edit "HW_Device_Fan_Bad"
+        set alert-name HW_Device_Fan_Bad
+      next
+      edit "HW_Device_Fan_Good"
+        set alert-name HW_Device_Fan_Good
+      next
+      edit "HW_Voltage_High"
+        set alert-name HW_Voltage_High
+      next
+      edit "HW_Voltage_Low"
+        set alert-name HW_Voltage_Low
+      next
+      edit "HW_PowerSupply_High"
+        set alert-name HW_PowerSupply_High
+      next
+      edit "HW_Power_Supply_Low"
+        set alert-name HW_Power_Supply_Low
+      next
+      edit "HW_PSU_Voltage_High"
+        set alert-name HW_PSU_Voltage_High
+      next
+      edit "HW_PSU_Voltage_Low"
+        set alert-name HW_PSU_Voltage_Low
+      next
+      edit "HW_PSU_Failure"
+        set alert-name HW_PSU_Failure
+      next
+      edit "HW_Log_Disk_Lost"
+        set alert-name HW_Log_Disk_Lost
+      next
+      edit "SYS_CPU_HIGH"
+        set alert-name SYS_CPU_HIGH
+      next
+      edit "SYS_DISK_HIGH"
+        set alert-name SYS_DISK_HIGH
+      next
+      edit "SYS_MEM_HIGH"
+        set alert-name SYS_MEM_HIGH
+      next
+      edit "SYS_Ssd_Mwi_Near_Threshold"
+        set alert-name SYS_Ssd_Mwi_Near_Threshold
+      next
+      edit "SYS_Ssd_Mwi_Reached_Threshold"
+        set alert-name SYS_Ssd_Mwi_Reached_Threshold
+      next
+      edit "SYS_DEVICE_REBOOTED"
+        set alert-name SYS_DEVICE_REBOOTED
+      next
+      edit "SYS_SYSTEM_UPGRADE_COMPLETE"
+        set alert-name SYS_SYSTEM_UPGRADE_COMPLETE
+      next
+      edit "SYS_USER_LOGIN"
+        set alert-name SYS_USER_LOGIN
+      next
+      edit "SYS_USER_LOGOUT"
+        set alert-name SYS_USER_LOGOUT
+      next
+      edit "SYS_ARP_Conflict"
+        set alert-name SYS_ARP_Conflict
+      next
+      edit "SYS_Logical_Interface_Up"
+        set alert-name SYS_Logical_Interface_Up
+      next
+      edit "SYS_Logical_Interface_Down"
+        set alert-name SYS_Logical_Interface_Down
+      next
+      edit "SYS_Logical_Interface_Disabled"
+        set alert-name SYS_Logical_Interface_Disabled
+      next
+      edit "SYS_LOG_FULL"
+        set alert-name SYS_LOG_FULL
+      next
+      edit "SYS_FW_SNAT_PORT_EXHAUSTED"
+        set alert-name SYS_FW_SNAT_PORT_EXHAUSTED
+      next
+      edit "SYS_HA_Peer_Lost"
+        set alert-name SYS_HA_Peer_Lost
+      next
+      edit "SYS_HA_Master_Failover"
+        set alert-name SYS_HA_Master_Failover
+      next
+      edit "SLB_Server_HC_Down"
+        set alert-name SLB_Server_HC_Down
+      next
+      edit "SLB_Server_HC_Up"
+        set alert-name SLB_Server_HC_Up
+      next
+      edit "SLB_Server_ENABLED"
+        set alert-name SLB_Server_ENABLED
+      next
+      edit "SLB_Server_DISABLED"
+        set alert-name SLB_Server_DISABLED
+      next
+      edit "SLB_Server_MAINTAIN"
+        set alert-name SLB_Server_MAINTAIN
+      next
+      edit "SLB_Server_Connection_Rate_Start"
+        set alert-name SLB_Server_Connection_Rate_Start
+      next
+      edit "SLB_Server_Connection_Rate_Stop"
+        set alert-name SLB_Server_Connection_Rate_Stop
+      next
+      edit "SLB_Server_Connection_Limit_Start"
+        set alert-name SLB_Server_Connection_Limit_Start
+      next
+      edit "SLB_Server_Connection_Limit_Stop"
+        set alert-name SLB_Server_Connection_Limit_Stop
+      next
+      edit "SLB_Virtual_Server_DOWN"
+        set alert-name SLB_Virtual_Server_DOWN
+      next
+      edit "SLB_Virtual_Server_UP"
+        set alert-name SLB_Virtual_Server_UP
+      next
+      edit "SLB_Virtual_Server_ENABLED"
+        set alert-name SLB_Virtual_Server_ENABLED
+      next
+      edit "SLB_Virtual_Server_DISABLED"
+        set alert-name SLB_Virtual_Server_DISABLED
+      next
+      edit "SLB_Virtual_Server_MAINTAIN"
+        set alert-name SLB_Virtual_Server_MAINTAIN
+      next
+      edit "SLB_Virtual_Server_Connection_Rate_Start"
+        set alert-name SLB_Virtual_Server_Connection_Rate_Start
+      next
+      edit "SLB_Virtual_Server_Connection_Rate_Stop"
+        set alert-name SLB_Virtual_Server_Connection_Rate_Stop
+      next
+      edit "SLB_Virtual_Server_Connection_Limit_Start"
+        set alert-name SLB_Virtual_Server_Connection_Limit_Start
+      next
+      edit "SLB_Virtual_Server_Connection_Limit_Stop"
+        set alert-name SLB_Virtual_Server_Connection_Limit_Stop
+      next
+      edit "SLB_Virtual_Server_Transaction_Rate_Start"
+        set alert-name SLB_Virtual_Server_Transaction_Rate_Start
+      next
+      edit "SLB_Virtual_Server_Transaction_Rate_Stop"
+        set alert-name SLB_Virtual_Server_Transaction_Rate_Stop
+      next
+      edit "SLB_Virtual_Server_IP_Pool_Limit"
+        set alert-name SLB_Virtual_Server_IP_Pool_Limit
+      next
+      edit "SLB_CERT_EXPIRE"
+        set alert-name SLB_CERT_EXPIRE
+      next
+      edit "LLB_Gateway_HC_Down"
+        set alert-name LLB_Gateway_HC_Down
+      next
+      edit "LLB_Link_Group_HC_Down"
+        set alert-name LLB_Link_Group_HC_Down
+      next
+      edit "LLB_Gateway_HC_Up"
+        set alert-name LLB_Gateway_HC_Up
+      next
+      edit "LLB_Link_Group_HC_Up"
+        set alert-name LLB_Link_Group_HC_Up
+      next
+      edit "LLB_Gateway_Inbound_Bandwidth"
+        set alert-name LLB_Gateway_Inbound_Bandwidth
+      next
+      edit "LLB_Gateway_Outbound_Bandwidth"
+        set alert-name LLB_Gateway_Outbound_Bandwidth
+      next
+      edit "LLB_Gateway_Inbound_Spillover"
+        set alert-name LLB_Gateway_Inbound_Spillover
+      next
+      edit "LLB_Gateway_Outbound_Spillover"
+        set alert-name LLB_Gateway_Outbound_Spillover
+      next
+      edit "LLB_Gateway_Total_Spillover"
+        set alert-name LLB_Gateway_Total_Spillover
+      next
+      edit "GLB_Server_Not_Avail"
+        set alert-name GLB_Server_Not_Avail
+      next
+      edit "GLB_Server_Avail"
+        set alert-name GLB_Server_Avail
+      next
+      edit "GLB_Virtual_Server_Not_Avail"
+        set alert-name GLB_Virtual_Server_Not_Avail
+      next
+      edit "GLB_Virtual_Server_Avail"
+        set alert-name GLB_Virtual_Server_Avail
+      next
+      edit "GLB_GW_Not_Avail"
+        set alert-name GLB_GW_Not_Avail
+      next
+      edit "GLB_GW_Avail"
+        set alert-name GLB_GW_Avail
+      next
+      edit "CONFIG_CREATE"
+        set alert-name CONFIG_CREATE
+      next
+      edit "CONFIG_DELETE"
+        set alert-name CONFIG_DELETE
+      next
+      edit "CONFIG_UPDATE"
+        set alert-name CONFIG_UPDATE
+      next
+      edit "SEC_DDoS_SYNFLOOD_attack_start"
+        set alert-name SEC_DDoS_SYNFLOOD_attack_start
+      next
+      edit "SEC_DDoS_SYNFLOOD_attack_stop"
+        set alert-name SEC_DDoS_SYNFLOOD_attack_stop
+      next
+      edit "SEC_Request_Blocked"
+        set alert-name SEC_Request_Blocked
+      next
+      edit "SEC_XSS_Attack_Detected"
+        set alert-name SEC_XSS_Attack_Detected
+      next
+      edit "SEC_SQL_Injection_Attack_Detected"
+        set alert-name SEC_SQL_Injection_Attack_Detected
+      next
+      edit "SEC_Generic_Attack_Detected"
+        set alert-name SEC_Generic_Attack_Detected
+      next
+      edit "SEC_URL_Patten_Violate_Detected"
+        set alert-name SEC_URL_Patten_Violate_Detected
+      next
+      edit "SEC_Protocol_Contraint_Detected"
+        set alert-name SEC_Protocol_Contraint_Detected
+      next
+      edit "SEC_Bot_Detected"
+        set alert-name SEC_Bot_Detected
+      next
+      edit "SEC_Geo_Violate_Detected"
+        set alert-name SEC_Geo_Violate_Detected
+      next
+      edit "SEC_Reputation_Violate_Detected"
+        set alert-name SEC_Reputation_Violate_Detected
+      next
+      edit "SEC_Virtual_Server_Auth_Fail"
+        set alert-name SEC_Virtual_Server_Auth_Fail
+      next
+      edit "SYS_OCSP_response_expires"
+        set alert-name SYS_OCSP_response_expires
+      next
+      edit "SYS_SSL_certificate_revoked"
+        set alert-name SYS_SSL_certificate_revoked
+      next
+      edit "SEC_JSON_Violate_Detected"
+        set alert-name SEC_JSON_Violate_Detected
+      next
+      edit "SEC_XML_Violate_Detected"
+        set alert-name SEC_XML_Violate_Detected
+      next
+      edit "SEC_SOAP_Violate_Detected"
+        set alert-name SEC_SOAP_Violate_Detected
+      next
+      edit "SYS_CRL_expires"
+        set alert-name SYS_CRL_expires
+      next
+      edit "SEC_Web_Anti_Defacement_Detected"
+        set alert-name SEC_Web_Anti_Defacement_Detected
+      next
+      edit "SEC_CSRF_Violate_Detected"
+        set alert-name SEC_CSRF_Violate_Detected
+      next
+      edit "SEC_Data_Leak_Violate_Detected"
+        set alert-name SEC_Data_Leak_Violate_Detected
+      next
+      edit "SEC_Html_Validation_Detected"
+        set alert-name SEC_Html_Validation_Detected
+      next
+      edit "SEC_DDoS_IP_Fragmentation"
+        set alert-name SEC_DDoS_IP_Fragmentation
+      next
+      edit "SEC_DDoS_TCP_Slow_Data_Attack"
+        set alert-name SEC_DDoS_TCP_Slow_Data_Attack
+      next
+      edit "SEC_DDoS_TCP_Access_Flood"
+        set alert-name SEC_DDoS_TCP_Access_Flood
+      next
+      edit "SEC_DDoS_HTTP_Connection_Flood"
+        set alert-name SEC_DDoS_HTTP_Connection_Flood
+      next
+      edit "SEC_DDoS_HTTP_Request_Flood"
+        set alert-name SEC_DDoS_HTTP_Request_Flood
+      next
+      edit "SEC_DDoS_HTTP_Access_Limit"
+        set alert-name SEC_DDoS_HTTP_Access_Limit
+      next
+    end
+  next
+end
+config log report_email
+end
+config security antivirus quarantine
+end
+config security antivirus settings
+end
+config security web-vulnerability-scanner target-login-option
+end
+config security web-vulnerability-scanner exceptionlist
+end
+config security web-vulnerability-scanner profile
+end
+config security web-vulnerability-scanner task
+end
+
+FortiADC-XENAWS~D # 
