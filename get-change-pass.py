@@ -46,18 +46,22 @@ def get_aws_fad():
                    aws_access_key_id=secretdata['key'],
                    aws_secret_access_key=secretdata['secret'])
     # just filter on running instance
-    response = ec2.describe_instances(Filters=[ { 'Name' : 'instance-state-name', 
-                                                  'Values' : ['running'] 
-                                                } ] )
+#    response = ec2.describe_instances(Filters=[ { 'Name' : 'instance-state-name', 
+#                                                  'Values' : ['running'] 
+#                                                } ] )
+    response = ec2.describe_instances()
     print("Only with aws:autoscaling:groupName")
 
     daftarip=[]    
     for m in response['Reservations']:
         hsl=findtagvalue(m['Instances'][0]['Tags'],'aws:autoscaling:groupName')
         if hsl:
-           print("Instance-Id: "+m['Instances'][0]['InstanceId']+' Private :'+m['Instances'][0]['NetworkInterfaces'][0]['PrivateIpAddresses'][0]['PrivateIpAddress']+\
-                 " --> public IP :"+m['Instances'][0]['NetworkInterfaces'][0]['PrivateIpAddresses'][0]['Association']['PublicIp']  ) 
-           daftarip.append( m['Instances'][0]['NetworkInterfaces'][0]['PrivateIpAddresses'][0]['Association']['PublicIp'] )
+           # there is autoscaling group, then most likely > 1 then must loop again
+           for i in m['Instances']:
+              print("Instance-Id: "+i['InstanceId']+' Private :'+i['NetworkInterfaces'][0]['PrivateIpAddresses'][0]['PrivateIpAddress']+\
+                    " --> public IP :"+i['NetworkInterfaces'][0]['PrivateIpAddresses'][0]['Association']['PublicIp']  ) 
+              daftarip.append( i['NetworkInterfaces'][0]['PrivateIpAddresses'][0]['Association']['PublicIp'] )
+    
     return daftarip
 
 def main():
