@@ -58,10 +58,10 @@ def get_aws_fad():
                    aws_access_key_id=secretdata['key'],
                    aws_secret_access_key=secretdata['secret'])
     # just filter on running instance
-#    response = ec2.describe_instances(Filters=[ { 'Name' : 'instance-state-name', 
-#                                                  'Values' : ['running'] 
-#                                                } ] )
-    response = ec2.describe_instances()
+    response = ec2.describe_instances(Filters=[ { 'Name' : 'instance-state-name', 
+                                                'Values' : ['running'] 
+                                               } ] )
+
     print("Only with aws:autoscaling:groupName")
 
     daftarip=[]    
