@@ -51,7 +51,18 @@ def ssh_fgt(ipadd,portno,user,pwd,command,privatefile):
     except:
         print("Can not connect to "+ipadd+':'+str(portno)+' with given credentials !!')
         exit()
- 
+
+    # try first using this and if it works just use this ? but remember the \r\n ?
+    stdin, stdout, stderr = client.exec_command(command)
+    hslexec = stdout.read()
+    
+    if ( len(hslexec)>100 ):
+        print("Succesful using exec_command")
+        print(hslexec)
+        pdb.set_trace()
+        return hslexec
+
+
     # will need to find a more graceful way .. check the prompt ? now just sleep
     remote_shell = client.invoke_shell()
     print("Wait 2 seconds for ssh ready...")
