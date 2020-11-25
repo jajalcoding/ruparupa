@@ -1,6 +1,7 @@
 import boto3
 import pprint
 import yaml
+import time
 from paramiko import SSHClient, AutoAddPolicy
 from paramiko.auth_handler import AuthenticationException, SSHException
 import pdb
@@ -34,12 +35,23 @@ def access_ssh(devip, keyfilename):
         exit()
 
     remote_shell = client.invoke_shell()
-    hasil = remote_shell.recv(500000)
-    print(hasil.decode())
+    recvstr = remote_shell.recv(1000)
+    hasil = recvstr.decode()
+    print(hasil)
+    # if there is 'New Password', it means this is a new FADC, will need to change the pass, otherwise it means it is already not first-time setup
+    
+    if (hasil.find('New Password')>0):
+        remote_shell.send(secretdata['fadpass']+'\n')
+        time.sleep(2) # enter confirm password
+        remote_shell.send(secretdata['fadpass']+'\n')
+        recvstr = remote_shell.recv(1000)
+        print(recvstr.decode())
+    else:
+        print('This device has been changed password before, exiting..')
+
     client.close()
 
 def get_aws_fad():
-    secretdata = loadyaml2dict('awskey.cfg')
 
     ec2 = boto3.client('ec2',
                    'us-east-1',
@@ -74,5 +86,6 @@ def main():
 
 
 if __name__ == "__main__":
-
+    # please put key, secret and new password for fadc in awskey.cfg
+    secretdata = loadyaml2dict('awskey.cfg')
     main()
