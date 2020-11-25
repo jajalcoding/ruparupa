@@ -41,6 +41,7 @@ for m in response['Reservations']:
         cetak = cetak + " --> public IP :"+m['Instances'][0]['NetworkInterfaces'][0]['PrivateIpAddresses'][0]['Association']['PublicIp']
     except :
         cetak = cetak + " - no public IP !"
+    cetak = cetak + " >> Status: "+m['Instances'][0]['State']['Name']
     print(cetak)
     hsl=findtagvalue(m['Instances'][0]['Tags'],'aws:autoscaling:groupName')
     print(hsl)
