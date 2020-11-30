@@ -69,17 +69,28 @@ def lambda_handler(event, context):
     devprivateip = current[0].private_ip_address
 
     # execute the ssh with 2 phase : 1) change password 2) inject script from awscombined.cfg
+    waittime=[30,30,15,15,5]
+    success = False
+    waitno = 0
 
     client = SSHClient()
     client.set_missing_host_key_policy(AutoAddPolicy())
-    print('Waiting for 60 seconds to make sure unit boot up....')
-    time.sleep(60)
 
-    print('SSH Client try to connect to '+devip)
-    try:
-        client.connect(devip, username='admin',port=22, timeout=10, key_filename='/tmp/private.key')
-    except:
-        print('Error connecting ....')
+    while (not success) and ( waitno < len(waittime) ):        
+            print('Waiting for '+str(waittime[waitno])+' seconds to make sure unit boot up....')
+            time.sleep( waittime[waitno] )
+            
+            print('SSH Client try to connect to '+devip)
+            try:
+                client.connect(devip, username='admin',port=22, timeout=10, key_filename='/tmp/private.key')
+                success = True
+            except:
+                print('Error connecting ....')
+                success = False
+            waitno = waitno + 1
+                
+    if (not success):                
+        print('Have tried SSH for {} times but failed... exiting...!!'.format(waitno+1) )
         return {
                 'statusCode': 404,
                 'body': "Error"
