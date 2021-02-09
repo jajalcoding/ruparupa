@@ -8,7 +8,7 @@ import sys
 try :
     HOSTNAME=sys.argv[1]
 except:
-    HOSTNAME='www.fortinet.com'
+    HOSTNAME='192.168.1.99'
 
 CMD = "GET / HTTP/1.1\r\nHost:"+HOSTNAME+"\r\nUser-Agent : Mozilla Firefox 5.0\r\nAccept:*/*\r\n\r\n"
 
