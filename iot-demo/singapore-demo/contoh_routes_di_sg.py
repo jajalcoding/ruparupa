@@ -1,7 +1,7 @@
 # Steps to change
 # 1. Generate these points using this web site :
 # https://www.keene.edu/campus/maps/tool/
-# For every loop, close the loop and put it under one array [ [..,..], [...,...] ]
+# For every loop, close the loop and put it under one array --> points = [ [..,..], [...,...] ]
 # create around 90-150 click per path
 
 # 2. upload demo_routes.py and mqtt_clients to linux_devices host, path /fortipoc/mqtt
