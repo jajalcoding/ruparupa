@@ -15,7 +15,7 @@
 #Subagios-MacBook-Pro:singapore-demo subagioteguh$
 
 # 3. SSH to linuxdevices, killall python3
-# 4. Rerun ./start_clients
+# 4. Rerun ./fortipoc/mqtt/start_clients
 # 5. check ps ux -> all python3 should run again
 
 # if the bicycle running in a blank map, may be something is wrong with the mqtt_client.py, make sure it is updated !
